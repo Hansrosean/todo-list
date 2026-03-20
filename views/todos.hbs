@@ -1,0 +1,47 @@
+<div class="container mt-5">
+  <h2>My Todo List</h2>
+  <p>Logged in as: <strong>{{user.email}}</strong></p>
+
+  <form action="/todos/add" method="POST" class="mb-4">
+    <div class="input-group mb-3">
+      <input
+        type="text"
+        name="title"
+        class="form-control"
+        placeholder="Judul Tugas"
+        required
+      />
+      <input
+        type="text"
+        name="content"
+        class="form-control"
+        placeholder="Deskripsi"
+      />
+      <button class="btn btn-primary" type="submit">Tambah</button>
+    </div>
+  </form>
+
+  <hr />
+
+  <ul class="list-group">
+    {{#each todos}}
+      <li
+        class="list-group-item d-flex justify-content-between align-items-center"
+      >
+        <div>
+          <strong>{{this.title}}</strong><br />
+          <small>{{this.content}}</small>
+        </div>
+        <form action="/todos/delete/{{this.id}}" method="POST">
+          <button class="btn btn-danger btn-sm">Hapus</button>
+        </form>
+      </li>
+    {{else}}
+      <p class="text-center">Belum ada tugas. Semangat!</p>
+    {{/each}}
+  </ul>
+
+  <form action="/auth/logout" method="POST" class="mt-4">
+    <button type="submit" class="btn btn-secondary">Logout</button>
+  </form>
+</div>

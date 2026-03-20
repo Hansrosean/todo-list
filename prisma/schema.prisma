@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id(map: "PK__users__3213E83F10C98A90") @default(autoincrement())
+  username  String?  @unique(map: "UQ__users__F3DBC572DAB1B3A0") @db.NVarChar(50)
+  email     String   @unique(map: "UQ__users__AB6E61646323AAD4") @db.NVarChar(255)
+  password  String   @db.NVarChar(255)
+  fullName  String?  @map("full_name") @db.NVarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // relation
+  notes Note[]
+
+  @@map("users")
+}
+
+model Note {
+  id        Int      @id(map: "PK__notes__3213E83F1875F856") @default(autoincrement())
+  userId    Int      @map("user_id")
+  title     String   @db.NVarChar(255)
+  slug      String   @unique(map: "UQ__notes__32DD1E4C7EC81C80") @db.NVarChar(255)
+  content   String   @db.NVarChar(Max)
+  status    String   @db.NVarChar(20)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // relation
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("notes")
+}

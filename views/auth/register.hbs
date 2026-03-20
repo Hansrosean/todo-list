@@ -1,0 +1,23 @@
+<h2>Register</h2>
+
+{{#if error}}
+  <p style="color:red">{{error}}</p>
+{{/if}}
+
+{{#if errors}}
+  <ul>
+    {{#each errors}}
+      <li style="color:red">{{this.msg}}</li>
+    {{/each}}
+  </ul>
+{{/if}}
+
+<form method="POST" action="/auth/register">
+  <input type="email" name="email" placeholder="Email" required />
+  <br />
+  <input type="password" name="password" placeholder="Password" required />
+  <br />
+  <button type="submit">Register</button>
+</form>
+
+<a href="/auth/login">Login</a>
